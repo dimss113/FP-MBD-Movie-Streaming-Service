@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../Layout/Layout";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
+
+  const HandleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/user/login", {
+        email: email,
+        password: password,
+      });
+      navigate("/movie");
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+        setMsg(error.response.data.message);
+      }
+    }
+  };
+
   return (
     <Layout>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
@@ -12,7 +35,12 @@ const Login = () => {
           </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            onSubmit={HandleLogin}
+            className="space-y-6"
+            action="#"
+            method="POST"
+          >
             <div>
               <label
                 htmlFor="email"
@@ -25,7 +53,8 @@ const Login = () => {
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -40,12 +69,12 @@ const Login = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    to="/"
                     className="font-semibold text-yellow-300 hover:text-yellow-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">
@@ -53,7 +82,9 @@ const Login = () => {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  value={password}
+                  placeholder="********"
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />

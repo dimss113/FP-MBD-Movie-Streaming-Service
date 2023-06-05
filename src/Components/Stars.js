@@ -40,6 +40,16 @@ const Rating = ({ value }) => {
           <FaRegStar />
         )}
       </span>
+      <span className="text-yellow-400">
+        {value >= 5 ? (
+          <FaStar />
+        ) : value >= 4.5 ? (
+          <FaStarHalfAlt />
+        ) : (
+          <FaRegStar />
+        )}
+      </span>
+      
     </>
   );
 };

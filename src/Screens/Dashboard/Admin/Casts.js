@@ -7,19 +7,19 @@ import { HiPlus } from "react-icons/hi";
 import TableCategory from "../../../Components/TableCategory";
 import { CategoriesData } from "../../../Data/CategoriesData";
 import CategoryModal from "../../../Components/Modals/CategoryModal";
+import AgeRateModal from "../../../Components/Modals/AgaRateModal";
+import CastsModal2 from "../../../Components/Modals/CastsModal2";
 
-const Categories = () => {
+const Casts = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [category, setCategory] = useState();
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [cast, setCast] = useState();
+  const [castData, setCastData] = useState([]);
 
-  const HandleGetAllCategories = async () => {
+  const HandleGetAllCast = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/category/categories"
-      );
+      const response = await axios.get("http://localhost:5000/cast/casts");
       console.log(response.data.data);
-      setCategoriesData(response.data.data);
+      setCastData(response.data.data);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -28,15 +28,13 @@ const Categories = () => {
   };
 
   const onEditFunction = (id) => {
-    setCategory(id);
+    setCast(id);
     setModalOpen(!modalOpen);
   };
 
-  const HandleDeleteCategory = async (id) => {
+  const HandleDeleteCast = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5000/category/delete-category/${id}`
-      );
+      await axios.delete(`http://localhost:5000/cast/delete-cast/${id}`);
       setModalOpen(false);
       // reload window
       window.location.reload();
@@ -49,20 +47,20 @@ const Categories = () => {
 
   useEffect(() => {
     if (modalOpen === false) {
-      setCategory();
+      setCast();
     }
   }, [modalOpen]);
 
   useEffect(() => {
-    HandleGetAllCategories();
+    HandleGetAllCast();
   }, []);
 
   return (
     <SideBar>
-      <CategoryModal
+      <CastsModal2
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        category={category}
+        cast_={cast}
       />
       <div className="flex flex-col gap-6">
         <div className="flex-btn gap-2">
@@ -75,17 +73,17 @@ const Categories = () => {
           </button>
         </div>
         <TableCategory
-          datas={categoriesData}
+          datas={castData}
           users={false}
           ageRate={false}
-          casts={false}
+          casts={true}
           moviestat={false}
           onEditFunction={onEditFunction}
-          onDeleteFunction={HandleDeleteCategory}
+          onDeleteFunction={HandleDeleteCast}
         />
       </div>
     </SideBar>
   );
 };
 
-export default Categories;
+export default Casts;

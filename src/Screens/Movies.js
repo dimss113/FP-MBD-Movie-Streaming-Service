@@ -1,27 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import React from 'react'
+import Layout from '../Layout/Layout'
+import Head from '../Components/Head'
+import Filters from '../Components/Filters'
+import Movies from '../Components/Movie'
+import { MoviesData } from '../Data/MoviesData'
+import { useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
 
-const Movies = ({ movie }) => {
+const MoviePage = () => {
+  const maxpage = 2;
+  const [page, setPage] = useState(maxpage);
+  const HandleLoadingMore = () => {
+    setPage(page + maxpage);
+  }
+
   return (
-    <>
-      <div className="border bg-yellow-200 border-border p-1 hover:scale-95 transitions relative rounded overflow-hidden">
-        <Link to={`/movies/${movie?.name}`} className="w-full">
-          <img
-            src={`Images/${movie?.image}`}
-            alt={movie.name}
-            className="w-full h-64 object-cover"
-          ></img>
-        </Link>
-        <div className="absolute flex-btn gap-2 bottom-0 right-0 left-0 bg-main bg-opacity-60 text-white px-4 py-3">
-          <h3 className="font-semibold truncate">{movie?.name}</h3>
-          <button className="h-9 w-9 text-sm flex-cols transitions hover:bg-transparent border-subMain rounded-md bg-subMain text-white">
-            <FaHeart/>
-          </button>
+    <Layout>
+      <div className="min-h-screen container mx-auto px-2 my-6">
+        <Filters />
+        <p className='text-lg font-medium my-6'>
+          Total <span className='font-bold text-subMain'>{MoviesData?.length}</span> {' '} items Found
+        </p>
+        <div className='grid sm:mt-10 mt-6 xl:grid-cols-4 2xl-grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 gap-6'>
+          {
+            MoviesData.slice(0, page)?.map((movie, index) => (
+              <Movies key={index} movie={movie} />
+            ))
+          }
         </div>
+        {/* Loading More */}
+          <div className='w-full flex-cols md:my-20 my-10 '>
+            <button onClick={HandleLoadingMore} className='w-40 h-12 bg-subMain text-white rounded-md text-lg font-medium hover:bg-transparent hover:border-2 hover:border-subMain transition'>
+              Load More <CgSpinner className='inline animate-spin' />
+            </button>
+          </div>
       </div>
-    </>
-  );
-};
+    </Layout>    
+  )
+}
 
-export default Movies;
+export default MoviePage

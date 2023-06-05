@@ -7,19 +7,20 @@ import { HiPlus } from "react-icons/hi";
 import TableCategory from "../../../Components/TableCategory";
 import { CategoriesData } from "../../../Data/CategoriesData";
 import CategoryModal from "../../../Components/Modals/CategoryModal";
+import AgeRateModal from "../../../Components/Modals/AgaRateModal";
 
-const Categories = () => {
+const AgeRate = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [category, setCategory] = useState();
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [ageRate, setAgeRate] = useState();
+  const [ageRateData, setAgeRateData] = useState([]);
 
-  const HandleGetAllCategories = async () => {
+  const HandleGetAllAgeRate = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/category/categories"
+        "http://localhost:5000/agerate/agerates"
       );
       console.log(response.data.data);
-      setCategoriesData(response.data.data);
+      setAgeRateData(response.data.data);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -28,15 +29,13 @@ const Categories = () => {
   };
 
   const onEditFunction = (id) => {
-    setCategory(id);
+    setAgeRate(id);
     setModalOpen(!modalOpen);
   };
 
   const HandleDeleteCategory = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5000/category/delete-category/${id}`
-      );
+      await axios.delete(`http://localhost:5000/agerate/delete-agerate/${id}`);
       setModalOpen(false);
       // reload window
       window.location.reload();
@@ -49,20 +48,20 @@ const Categories = () => {
 
   useEffect(() => {
     if (modalOpen === false) {
-      setCategory();
+      setAgeRate();
     }
   }, [modalOpen]);
 
   useEffect(() => {
-    HandleGetAllCategories();
+    HandleGetAllAgeRate();
   }, []);
 
   return (
     <SideBar>
-      <CategoryModal
+      <AgeRateModal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        category={category}
+        agerate={ageRate}
       />
       <div className="flex flex-col gap-6">
         <div className="flex-btn gap-2">
@@ -75,9 +74,9 @@ const Categories = () => {
           </button>
         </div>
         <TableCategory
-          datas={categoriesData}
+          datas={ageRateData}
           users={false}
-          ageRate={false}
+          ageRate={true}
           casts={false}
           moviestat={false}
           onEditFunction={onEditFunction}
@@ -88,4 +87,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default AgeRate;
