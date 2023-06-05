@@ -58,7 +58,7 @@ const NavBar = () => {
             <NavLink to="/register" className={Hover}>
               <CgUser className="w-6 h-6 inline-block" /> Register
             </NavLink>
-            <NavLink to="/favorite" className={`${Hover} relative`}>
+            <NavLink to="/favorites" className={`${Hover} relative`}>
               <FaHeart className="w-6 h-6 inline-block"/> favorite
               <div className="w-5 h-5 flex-cols rounded-full text-xs bg-subMain text-white absolute -top-5 -right-1">
                 2

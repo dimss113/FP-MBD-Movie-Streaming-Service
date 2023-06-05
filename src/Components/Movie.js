@@ -6,9 +6,9 @@ const Movies = ({ movie }) => {
   return (
     <>
       <div className="border bg-yellow-200 border-border p-1 hover:scale-95 transitions relative rounded overflow-hidden">
-        <Link to={`/movies/${movie?.name}`} className="w-full">
+        <Link to={`/movie/${movie?.name}`} className="w-full">
           <img
-            src={`Images/${movie?.image}`}
+            src={`/Images/${movie?.image}`}
             alt={movie.name}
             className="w-full h-64 object-cover"
           ></img>
