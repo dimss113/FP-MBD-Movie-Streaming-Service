@@ -10,7 +10,6 @@ const HomeScreen = () => {
     <Layout>
       {/* this is children of layout */}
       <div className="container mx-auto min-h-screen px-2 mb-6 ">
-        HomeScreen
         <Banner />
         <PopularMovies />
         <Promos />

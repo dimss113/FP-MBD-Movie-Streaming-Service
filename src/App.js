@@ -13,6 +13,7 @@ import Profile from "./Screens/Dashboard/Profile";
 import Aos from "aos";
 import Password from "./Screens/Dashboard/Password";
 import FavoriteMovies from "./Screens/Dashboard/FavoriteMovies";
+import BookmarkMovies from "./Screens/Dashboard/Bookmark";
 import MovieList from "./Screens/Dashboard/Admin/MovieList";
 import Dashboard from "./Screens/Dashboard/Admin/Dashboard";
 import Categories from "./Screens/Dashboard/Admin/Categories";
@@ -22,6 +23,8 @@ import AgeRate from "./Screens/Dashboard/Admin/AgeRate";
 import Casts from "./Screens/Dashboard/Admin/Casts";
 import MovieStatus from "./Screens/Dashboard/Admin/MovieStatus";
 import ScrollOnTop from "./ScrollOnTop";
+import MovieCast from "./Screens/Dashboard/Admin/MovieCast";
+import SubscriptionPage from "./Screens/SubscriptionPage";
 
 const App = () => {
   Aos.init();
@@ -39,14 +42,17 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/password" element={<Password />} />
         <Route path="/favorites" element={<FavoriteMovies />} />
+        <Route path="/bookmark" element={<BookmarkMovies />} />
         <Route path="/movieslist" element={<MovieList />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/users" element={<Users />} />
         <Route path="/addmovie" element={<AddMovie />} />
+        <Route path="/subscribe" element={<SubscriptionPage />} />
         <Route path="/agerate" element={<AgeRate />} />
         <Route path="/Casts" element={<Casts />} />
         <Route path="/moviestatus" element={<MovieStatus />} />
+        <Route path="/moviecast" element={<MovieCast />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ScrollOnTop>

@@ -1,42 +1,91 @@
-import React, { useEffect, useState } from "react";
-import SideBar from "../SideBar";
-import { Input, Message, Select } from "../../../Components/UsedInputs";
-import Uploader from "../../../Components/Uploader";
-import { CategoriesData } from "../../../Data/CategoriesData";
-import { UserData } from "../../../Data/UserData";
-import { HiPlus } from "react-icons/hi";
-import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { ImUpload } from "react-icons/im";
-import CastsModal from "../../../Components/Modals/CastsModal";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import MainModal from "./MainModal";
+import { Input } from "../UsedInputs";
+import { HiPlusCircle } from "react-icons/hi";
 import { FiUploadCloud } from "react-icons/fi";
+import { ImUpload } from "react-icons/im";
 
-const AddMovie = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [cast, setCast] = useState(UserData[0]);
-  const [nama, setNama] = useState("");
-  const [tahunRilis, setTahunRilis] = useState(0);
-  const [deskripsi, setDeskripsi] = useState("");
-  const [resolusi, setResolusi] = useState("");
-  const [durasi, setDurasi] = useState(0);
-  const [director, setDirector] = useState("");
-  const [studioProduksi, setStudioProduksi] = useState("");
-  const [genreId, setGenreId] = useState(0);
-  const [ratingUmurId, setRatingUmurId] = useState(0);
-  const [movieStatusId, setMovieStatusId] = useState(0);
-  const [movieImage, setMovieImage] = useState("");
+const MovieModal = ({ modalOpen, setModalOpen, singlemovie }) => {
+  const [nama, setNama] = useState(singlemovie.nama);
+  const [tahunRilis, setTahunRilis] = useState(singlemovie.tahun_rilis);
+  const [deskripsi, setDeskripsi] = useState(singlemovie.deskripsi);
+  const [resolusi, setResolusi] = useState(singlemovie.resolusi);
+  const [durasi, setDurasi] = useState(singlemovie.durasi);
+  const [director, setDirector] = useState(singlemovie.director);
+  const [studioProduksi, setStudioProduksi] = useState(
+    singlemovie.studio_produksi
+  );
+  const [movieStatusId, setMovieStatusId] = useState(
+    singlemovie.moviestatus_id
+  );
+  const [movieStatusName, setMovieStatusName] = useState();
+
+  const [genreId, setGenreId] = useState(singlemovie.genre_id);
+  const [genreName, setGenreName] = useState(singlemovie.genre_id);
+
+  const [ratingUmurId, setRatingUmurId] = useState(singlemovie.rating_umur_id);
+  const [ratingUmurName, setRatingUmurName] = useState();
+
+  const [movieImage, setMovieImage] = useState(singlemovie.gambar);
+
   const [categories, setCategories] = useState([]);
   const [ratingUmurData, setRatingUmurData] = useState([]);
   const [movieStatusData, setMovieStatusData] = useState([]);
+
+  // console.log("SINGLE MOVIE JANCOK", singlemovie);
+  console.log("GENRE ID", genreId);
+
+  const HandleGetGenreById = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/category/get-category/${genreId}`
+      );
+      console.log("GET GENRE BY ID BOSSSSSSSSSSSSSS", response.data.data.title);
+      setGenreName(response.data.data.title);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  console.log("genre name", genreName);
+
+  const HandleGetRatingUmurById = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/agerate/get-agerate/${ratingUmurId}`
+      );
+      console.log(response.data.data.rate);
+      setRatingUmurName(response.data.data.rate);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  const HandleGetMovieStatusById = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/moviestatus/get-moviestatus/${movieStatusId}`
+      );
+      console.log(response.data.data.jenis);
+      setMovieStatusName(response.data.data.jenis);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    }
+  };
 
   const HandleGetAllCategories = async () => {
     try {
       const response = await axios.get(
         "http://localhost:5000/category/categories"
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setCategories(response.data.data);
     } catch (error) {
       if (error.response) {
@@ -50,7 +99,7 @@ const AddMovie = () => {
       const response = await axios.get(
         "http://localhost:5000/agerate/agerates"
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setRatingUmurData(response.data.data);
     } catch (error) {
       if (error.response) {
@@ -64,7 +113,7 @@ const AddMovie = () => {
       const response = await axios.get(
         "http://localhost:5000/moviestatus/moviestatuss"
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setMovieStatusData(response.data.data);
     } catch (error) {
       if (error.response) {
@@ -73,7 +122,7 @@ const AddMovie = () => {
     }
   };
 
-  const HandleAddMovie = async (e) => {
+  const HandleUpdateMovie = async (e) => {
     e.preventDefault();
     try {
       const movieData = new FormData();
@@ -88,38 +137,38 @@ const AddMovie = () => {
       movieData.append("rating_umur_id", parseInt(ratingUmurId));
       movieData.append("moviestatus_id", parseInt(movieStatusId));
       movieData.append("gambar", movieImage);
-      await axios.post("http://localhost:5000/movie/add-movie", movieData);
-
+      await axios.put(
+        `http://localhost:5000/movie/update-movie/${singlemovie.id}`,
+        movieData
+      );
+      setModalOpen(false);
       window.location.reload();
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data.message);
+        console.log(error);
       }
     }
   };
 
   useEffect(() => {
-    if (modalOpen === false) {
-      setCast();
-    }
-  }, [modalOpen]);
-
-  useEffect(() => {
     HandleGetAllCategories();
     HandleGetAllRatingUmur();
     HandleGetAllMovieStatus();
+    HandleGetGenreById();
+    HandleGetRatingUmurById();
+    HandleGetMovieStatusById();
   }, []);
 
+  // useEffect(() => {
+  //   // HandleGetRatingUmurById();
+  //   // HandleGetMovieStatusById();
+  // }, [genreId, ratingUmurId, movieStatusId]);
+
   return (
-    <SideBar>
-      <CastsModal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        cast={cast}
-      />
-      <form onSubmit={HandleAddMovie}>
-        <div className="flex flex-col gap-6">
-          <h2 className="text-xl font-bold">Add Movie</h2>
+    <MainModal modalOpen={modalOpen} setModelOpen={setModalOpen}>
+      <form onSubmit={HandleUpdateMovie}>
+        <div className="flex bg-subMain rounded-lg w-full flex-col gap-6">
+          <h2 className="text-xl font-bold">Update Movie</h2>
           <div className="w-full grid md:grid-cols-2 gap-6">
             <Input
               label="Movie Title"
@@ -187,10 +236,12 @@ const AddMovie = () => {
             <div className="flex flex-col gap-2">
               <p className="text-border font-semibold text-sm">Genre</p>
               <select
-                className="border bg-main  border-border rounded-lg px-4 py-2 focus:outline-none"
+                className="border bg-main text-white border-border rounded-lg px-4 py-2 focus:outline-none"
                 onChange={(e) => setGenreId(e.target.value)}
               >
-                <option value="">Select Genre</option>
+                <option key={genreId} value={genreId}>
+                  {genreName}
+                </option>
                 {categories.map((category, index) => (
                   <option key={category.id} value={category.id}>
                     {category.title}
@@ -204,10 +255,12 @@ const AddMovie = () => {
             <div className="flex flex-col gap-2">
               <p className="text-border font-semibold text-sm">Rating Umur</p>
               <select
-                className="border bg-main  border-border rounded-lg px-4 py-2 focus:outline-none"
+                className="border bg-main text-white border-border rounded-lg px-4 py-2 focus:outline-none"
                 onChange={(e) => setRatingUmurId(e.target.value)}
               >
-                <option value="">Select Rating Umur</option>
+                <option key={ratingUmurId} value={ratingUmurId}>
+                  {ratingUmurName}
+                </option>
                 {ratingUmurData.map((umur, index) => (
                   <option key={umur.id} value={umur.id}>
                     {umur.rate}
@@ -218,10 +271,12 @@ const AddMovie = () => {
             <div className="flex flex-col gap-2">
               <p className="text-border font-semibold text-sm">Movie Status</p>
               <select
-                className="border bg-main  border-border rounded-lg px-4 py-2 focus:outline-none"
+                className="border bg-main text-white border-border rounded-lg px-4 py-2 focus:outline-none"
                 onChange={(e) => setMovieStatusId(e.target.value)}
               >
-                <option value="">Select Movie Status</option>
+                <option key={movieStatusId} value={movieStatusId}>
+                  {movieStatusName}
+                </option>
                 {movieStatusData.map((movie, index) => (
                   <option key={movie.id} value={movie.id}>
                     {movie.jenis}
@@ -230,60 +285,17 @@ const AddMovie = () => {
               </select>
             </div>
           </div>
-          {/* images */}
-          <div className="w-full grid md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <p className="text-border font-semibold text-sm">
-                Image without title
-              </p>
-              {/* <Uploader
-                type="file"
-                name="photo"
-                id="photo"
-                accept="image/*"
-                onChange={(e) => setMovieImage(e.target.files[0])}
-                // className="sr-only"
-                placeholder="Upload Image"
-              /> */}
-              <div className="w-full text-center ">
-                <div className="px-6 pt-5 pb-6 border-2 border-border border-dashed bg-main rounded-md cursor-pointer">
-                  <input
-                    type="file"
-                    name="photo"
-                    id="photo"
-                    accept="image/*"
-                    onChange={(e) => setMovieImage(e.target.files[0])}
-                    hidden
-                    placeholder="Upload Image"
-                  />
-                  <span className="mx-auto flex-cols text-subMain text-3xl">
-                    <FiUploadCloud />
-                  </span>
-                  <p className="text-sm mt-2">Drag your image here</p>
-                  <em className="text-xs text-border">
-                    (only .jpg and .png files are accepted)
-                  </em>
-                </div>
-              </div>
-              <label
-                htmlFor="photo"
-                className="w-64 h-12 p-2 bg-main border border-border rounded cursor-pointer"
-              >
-                {movieImage ? movieImage.name : "Upload Image"}
-              </label>
-            </div>
-          </div>
 
           {/* Submit */}
           {/* <div className="flex justify-end items-center my-4"> */}
           <button className="bg-main font-medium transitions hover:bg-dry border border-subMain  text-white py-4  rounded w-full flex-rows gap-6">
-            <ImUpload /> Add Movie
+            <ImUpload /> Update Movie
           </button>
           {/* </div> */}
         </div>
       </form>
-    </SideBar>
+    </MainModal>
   );
 };
 
-export default AddMovie;
+export default MovieModal;

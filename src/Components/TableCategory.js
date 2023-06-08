@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { GoEye } from "react-icons/go";
+import axios from "axios";
 
 const Head =
   "text-xs text-left text-drayGray font-medium font-semibold px-6 py-2 uppercase";
@@ -14,9 +15,38 @@ const Rows = (
   ageRate,
   casts,
   moviestat,
+  moviecast,
   onEditFunction,
   onDeleteFunction
 ) => {
+  const [movieName, setMovieName] = useState("");
+  const [castName, setCastName] = useState("");
+
+  const HandleGetMovieName = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/movie/movie/${id}`);
+      setMovieName(res.data.data.nama);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const HandleGetCastName = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/cast/cast/${id}`);
+      setCastName(res.data.data.nama);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (moviecast) {
+      HandleGetMovieName(data.movie_id);
+      HandleGetCastName(data.cast_id);
+    }
+  }, []);
+
   return (
     <tr key={i} className="bg-main">
       {/* users */}
@@ -143,6 +173,40 @@ const Rows = (
             </button>
           </td>
         </>
+      ) : moviecast ? (
+        <>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-drayGray font-bold">
+              {data?.id ? data.id : "2R75T8"}
+            </div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {/* <div className="text-sm text-drayGray">
+              {data?.movie_id ? data.movie_id : "29, May 2023"}
+            </div> */}
+            <div className="text-sm text-drayGray">
+              {movieName ? movieName : "movie name"}
+            </div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-drayGray">{castName}</div>
+            {/* <div className="text-sm text-drayGray">{data?.cast_id}</div> */}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex gap-2">
+            <button
+              onClick={() => onEditFunction(data)}
+              className="text-subMain hover:text-subMain"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onDeleteFunction(data.id)}
+              className="text-subMain hover:text-subMain"
+            >
+              Delete
+            </button>
+          </td>
+        </>
       ) : (
         // category
         <>
@@ -185,6 +249,7 @@ const TableCategory = ({
   ageRate,
   casts,
   moviestat,
+  moviecast,
   onEditFunction,
   onDeleteFunction,
 }) => {
@@ -248,6 +313,18 @@ const TableCategory = ({
                   status
                 </th>
               </>
+            ) : moviecast ? (
+              <>
+                <th scope="col" className={`${Head}`}>
+                  Id
+                </th>
+                <th scope="col" className={`${Head}`}>
+                  movie name
+                </th>
+                <th scope="col" className={`${Head}`}>
+                  cast name
+                </th>
+              </>
             ) : (
               <>
                 <th scope="col" className={`${Head}`}>
@@ -275,6 +352,7 @@ const TableCategory = ({
               ageRate,
               casts,
               moviestat,
+              moviecast,
               onEditFunction,
               onDeleteFunction
             )
