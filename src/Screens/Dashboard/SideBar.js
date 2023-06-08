@@ -35,21 +35,21 @@ const SideBar = ({ children }) => {
       link: "/users",
       icon: FaUsers,
     },
-    {
-      name: "Update Profile",
-      link: "/profile",
-      icon: FiSettings,
-    },
+    // {
+    //   name: "Update Profile",
+    //   link: "/profile",
+    //   icon: FiSettings,
+    // },
     {
       name: "Favorites Movie",
       link: "/favorites",
       icon: FaHeart,
     },
-    {
-      name: "Change Password",
-      link: "/password",
-      icon: RiLockPasswordFill,
-    },
+    // {
+    //   name: "Change Password",
+    //   link: "/password",
+    //   icon: RiLockPasswordFill,
+    // },
     {
       name: "Age Rate",
       link: "/agerate",
@@ -63,6 +63,16 @@ const SideBar = ({ children }) => {
     {
       name: "Movie Status",
       link: "/moviestatus",
+      icon: FaListAlt,
+    },
+    {
+      name: "Movie Cast",
+      link: "/moviecast",
+      icon: FaListAlt,
+    },
+    {
+      name: "Bookmark",
+      link: "/bookmark",
       icon: FaListAlt,
     },
   ];

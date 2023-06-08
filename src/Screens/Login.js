@@ -13,11 +13,13 @@ const Login = () => {
   const HandleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/user/login", {
+      const response = await axios.post("http://localhost:5000/user/login", {
         email: email,
         password: password,
       });
-      navigate("/movie");
+      localStorage.setItem("data", JSON.stringify(response.data));
+      const data = JSON.parse(localStorage.getItem("data"));
+      navigate("/");
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
@@ -28,7 +30,7 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+      <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm bg">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
             Sign in to your account

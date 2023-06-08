@@ -54,15 +54,11 @@ const Footer = () => {
         },
         {
           name: "My Favorite",
-          link: "/favorite",
+          link: "/favorites",
         },
         {
-          name: "Profile",
-          link: "/profile",
-        },
-        {
-          name: "Change Password",
-          link: "/password",
+          name: "Bookmark",
+          link: "/bookmark",
         },
       ],
     },

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
 import Table from "../../Components/Table";
-import { MoviesData } from "../../Data/MoviesData";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const FavoriteMovies = () => {
+const BookmarkMovies = () => {
   const [userId, setUserId] = useState(null);
   const [storedData, setStoredData] = useState(null);
   const navigate = useNavigate();
@@ -34,12 +33,12 @@ const FavoriteMovies = () => {
     }
   };
 
-  const HandleGetAllLikeDataById = async () => {
+  const HandleGetAllBookmarkDataById = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/like/like-by-user/${userId}`
+        `http://localhost:5000/bookmark/user/${userId}`
       );
-      console.log("All Like Data", res.data.data);
+      console.log("All Bookmark Data", res.data.data);
       setStoredData(res.data.data);
 
       if (!isGetMovieData) {
@@ -60,7 +59,7 @@ const FavoriteMovies = () => {
 
   useEffect(() => {
     if (userId) {
-      HandleGetAllLikeDataById();
+      HandleGetAllBookmarkDataById();
     }
   }, [userId]);
 
@@ -79,4 +78,4 @@ const FavoriteMovies = () => {
   );
 };
 
-export default FavoriteMovies;
+export default BookmarkMovies;
