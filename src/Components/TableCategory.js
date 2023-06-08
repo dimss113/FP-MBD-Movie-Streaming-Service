@@ -16,6 +16,7 @@ const Rows = (
   casts,
   moviestat,
   moviecast,
+  paymentMethod,
   onEditFunction,
   onDeleteFunction
 ) => {
@@ -207,6 +208,31 @@ const Rows = (
             </button>
           </td>
         </>
+      ) : paymentMethod ? (
+        <>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-drayGray font-bold">
+              {data?.id ? data.id : "2R75T8"}
+            </div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <div className="text-sm text-drayGray">{data?.method}</div>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex gap-2">
+            <button
+              onClick={() => onEditFunction(data)}
+              className="text-subMain hover:text-subMain"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onDeleteFunction(data.id)}
+              className="text-subMain hover:text-subMain"
+            >
+              Delete
+            </button>
+          </td>
+        </>
       ) : (
         // category
         <>
@@ -250,6 +276,7 @@ const TableCategory = ({
   casts,
   moviestat,
   moviecast,
+  paymentMethod,
   onEditFunction,
   onDeleteFunction,
 }) => {
@@ -325,6 +352,15 @@ const TableCategory = ({
                   cast name
                 </th>
               </>
+            ) : paymentMethod ? (
+              <>
+                <th scope="col" className={`${Head}`}>
+                  Id
+                </th>
+                <th scope="col" className={`${Head}`}>
+                  Payment Method
+                </th>
+              </>
             ) : (
               <>
                 <th scope="col" className={`${Head}`}>
@@ -353,6 +389,7 @@ const TableCategory = ({
               casts,
               moviestat,
               moviecast,
+              paymentMethod,
               onEditFunction,
               onDeleteFunction
             )

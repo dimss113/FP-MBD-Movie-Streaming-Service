@@ -25,6 +25,10 @@ import MovieStatus from "./Screens/Dashboard/Admin/MovieStatus";
 import ScrollOnTop from "./ScrollOnTop";
 import MovieCast from "./Screens/Dashboard/Admin/MovieCast";
 import SubscriptionPage from "./Screens/SubscriptionPage";
+import PaymentPage from "./Screens/PaymentPage";
+import PaymentMethod from "./Screens/Dashboard/Admin/PaymentMethod";
+import FreeMovies from "./Screens/FreeMovies";
+import PaidMovies from "./Screens/PaidMovies";
 
 const App = () => {
   Aos.init();
@@ -49,6 +53,10 @@ const App = () => {
         <Route path="/users" element={<Users />} />
         <Route path="/addmovie" element={<AddMovie />} />
         <Route path="/subscribe" element={<SubscriptionPage />} />
+        <Route path="/paymentmethod" element={<PaymentMethod />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/freemovies" element={<FreeMovies />} />
+        <Route path="/paidmovies" element={<PaidMovies />} />
         <Route path="/agerate" element={<AgeRate />} />
         <Route path="/Casts" element={<Casts />} />
         <Route path="/moviestatus" element={<MovieStatus />} />
