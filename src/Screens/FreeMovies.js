@@ -8,7 +8,7 @@ import { CgSpinner } from "react-icons/cg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const MoviePage = () => {
+const FreeMovies = () => {
   const maxpage = 2;
   const [page, setPage] = useState(maxpage);
   const HandleLoadingMore = () => {
@@ -17,9 +17,11 @@ const MoviePage = () => {
 
   const [moviesData, setMoviesData] = useState([]);
 
-  const GetAllMoviesData = async () => {
+  const GetAllFreeMovies = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/movie/movies`);
+      const response = await axios.get(
+        `http://localhost:5000/movie/movies-free`
+      );
       setMoviesData(response.data.data);
     } catch (error) {
       console.log(error);
@@ -27,7 +29,7 @@ const MoviePage = () => {
   };
 
   useEffect(() => {
-    GetAllMoviesData();
+    GetAllFreeMovies();
   }, []);
 
   return (
@@ -75,4 +77,4 @@ const MoviePage = () => {
   );
 };
 
-export default MoviePage;
+export default FreeMovies;

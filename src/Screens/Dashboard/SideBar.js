@@ -75,6 +75,11 @@ const SideBar = ({ children }) => {
       link: "/bookmark",
       icon: FaListAlt,
     },
+    {
+      name: "Payment Method",
+      link: "/paymentmethod",
+      icon: FaListAlt,
+    },
   ];
 
   const active = "bg-drayGray text-subMain";
