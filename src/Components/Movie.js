@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const Movies = ({ movie }) => {
   return (

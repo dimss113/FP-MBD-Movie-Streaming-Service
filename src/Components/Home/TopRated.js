@@ -47,22 +47,6 @@ const TopRated = () => {
         >
           {MoviesData.map((movie, index) => (
             <SwiperSlide key={index}>
-              {/* <div className="border bg-yellow-200 border-border p-1 hover:scale-95 transitions relative rounded overflow-hidden">
-                  <Link to={`/movies/${movie?.name}`} className="w-full">
-                    <img
-
-                      src={`Images/${movie?.image}`}
-                      alt={movie.name}
-                      className="w-full h-64 object-cover"
-                    ></img>
-                  </Link>
-                  <div className="absolute flex-btn gap-2 bottom-0 right-0 left-0 bg-main bg-opacity-60 text-white px-4 py-3">
-                    <h3 className="font-semibold truncate">{movie?.name}</h3>
-                    <button className="h-9 w-9 text-sm flex-cols transitions hover:bg-transparent border-subMain rounded-md bg-subMain text-white">
-                      <FaHeart />
-                    </button>
-                  </div>
-                </div> */}
               <div className="p-4 h-rate hovered border border-border bg-dray rounded-lg overflow-hidden">
                 <img
                   src={`Images/${movie?.image}`}
@@ -87,14 +71,7 @@ const TopRated = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="w-full px-1 flex-rows gap-6 pt-12">
-          {/* <button className={classNames} ref={(node) => setPrevE1(node)}>
-            <BsChevronLeft className="w-6 h-6" />
-          </button>
-          <button className={classNames} ref={(node) => setNextE1(node)}>
-            <BsChevronRight className="w-6 h-6" />
-          </button> */}
-        </div>
+        <div className="w-full px-1 flex-rows gap-6 pt-12"></div>
       </div>
     </div>
   );

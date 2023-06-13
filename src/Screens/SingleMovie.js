@@ -29,6 +29,22 @@ const SingleMovie = () => {
   const [isSetMovieId, setIsSetMovieId] = useState(false);
   const navigate = useNavigate();
 
+
+  const HandleCheckSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/subscription/status/${1}`
+      );
+      console.log(response.data.data);
+      if (response.data.data.length === 0) {
+        navigate("/subscribe");
+      }
+    } catch (error) {
+      navigate("/subscribe");
+      console.log(error);
+    }
+  };
+
   const HandleGetUserId = () => {
     const data = localStorage.getItem("data");
     if (!data) {
@@ -209,6 +225,7 @@ const SingleMovie = () => {
     HandleGetMovieId();
     HandleGetMoviebySlug();
     HandleGetStoredData();
+    HandleCheckSubscription();
   }, []);
 
   useEffect(() => {

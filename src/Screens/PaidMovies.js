@@ -7,10 +7,13 @@ import { MoviesData } from "../Data/MoviesData";
 import { CgSpinner } from "react-icons/cg";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PaidMovies = () => {
   const maxpage = 2;
   const [page, setPage] = useState(maxpage);
+  const navigate = useNavigate();
+
   const HandleLoadingMore = () => {
     setPage(page + maxpage);
   };
@@ -28,8 +31,24 @@ const PaidMovies = () => {
     }
   };
 
+  const HandleCheckSubscription = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/subscription/status/${1}`
+      );
+      console.log(response.data.data);
+      if (response.data.data.length === 0) {
+        navigate("/subscribe");
+      }
+    } catch (error) {
+      navigate("/subscribe");
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     GetAllPaidMovies();
+    HandleCheckSubscription();
   }, []);
 
   return (

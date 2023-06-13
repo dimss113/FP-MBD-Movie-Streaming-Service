@@ -34,7 +34,7 @@ const MoviePage = () => {
     <Layout>
       <div className="min-h-screen container mx-auto px-2 my-6">
         {/* <Filters /> */}
-        {/* Create to Link button, first for free movie and second for paid movie */}
+        {/* Create to Link button, first for free movie and second for paid movie, and third for all movie */}
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link
